@@ -5,6 +5,7 @@ import {contains} from '../../util';
 import {area} from './area';
 import {bar} from './bar';
 import {MarkCompiler} from './base';
+import {geoshape} from './geoshape';
 import {line} from './line';
 import {circle, point, square} from './point';
 import {rect} from './rect';
@@ -25,6 +26,7 @@ const markCompiler: {[type: string]: MarkCompiler} = {
   tick: tick,
   rect: rect,
   rule: rule,
+  geoshape: geoshape,
   circle: circle,
   square: square
 };
@@ -43,6 +45,7 @@ function parsePathMark(model: UnitModel) {
   const mark = model.mark();
   // FIXME: replace this with more general case for composition
   const details = detailFields(model);
+  const transform = typeof markCompiler[mark].transform === 'function';
 
   const pathMarks: any = [
     {
@@ -51,7 +54,8 @@ function parsePathMark(model: UnitModel) {
       // If has subfacet for line/area group, need to use faceted data from below.
       // FIXME: support sorting path order (in connected scatterplot)
       from: {data: (details.length > 0 ? FACETED_PATH_PREFIX : '') + model.getDataName(MAIN)},
-      encode: {update: markCompiler[mark].encodeEntry(model)}
+      encode: {update: markCompiler[mark].encodeEntry(model)},
+      ...(transform ? {transform: markCompiler[mark].transform(model)} : {})
     }
   ];
 
@@ -74,6 +78,7 @@ function parsePathMark(model: UnitModel) {
           height: {field: {group: 'height'}}
         }
       },
+      ...(transform ? {transform: markCompiler[mark].transform(model)} : {}),
       marks: pathMarks
     }];
   } else {
@@ -85,6 +90,7 @@ function parseNonPathMark(model: UnitModel) {
   const mark = model.mark();
 
   const role = model.markDef.role || markCompiler[mark].defaultRole;
+  const transform = typeof markCompiler[mark].transform === 'function';
 
   const marks: any[] = []; // TODO: vgMarks
 
@@ -95,7 +101,8 @@ function parseNonPathMark(model: UnitModel) {
     type: markCompiler[mark].vgMark,
     ...(role? {role} : {}),
     from: {data: model.getDataName(MAIN)},
-    encode: {update: markCompiler[mark].encodeEntry(model)}
+    encode: {update: markCompiler[mark].encodeEntry(model)},
+    ...(transform ? {transform: markCompiler[mark].transform(model)} : {})
   });
 
   return marks;
