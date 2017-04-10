@@ -130,6 +130,12 @@
                     }
                 }
             },
+            "projections": [
+                {
+                    "name": "projection",
+                    "type": "mercator"
+                }
+            ],
             "marks": [
                 {
                     "name": "marks",
@@ -146,18 +152,21 @@
                             "y": {
                                 "signal": "(scale(\"y\", datum[\"bin_maxbins_10_Rotten_Tomatoes_Rating_start\"]) + scale(\"y\", datum[\"bin_maxbins_10_Rotten_Tomatoes_Rating_end\"]))/2"
                             },
-                            "fill": {
-                                "value": "#4c78a8"
-                            },
                             "size": {
                                 "scale": "size",
                                 "field": "count_*"
+                            },
+                            "fill": {
+                                "value": "#4c78a8"
                             },
                             "shape": {
                                 "value": "circle"
                             }
                         }
-                    }
+                    },
+                    "transform": [
+                        null
+                    ]
                 }
             ],
             "scales": [

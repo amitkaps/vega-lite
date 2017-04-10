@@ -111,6 +111,12 @@
                     }
                 }
             },
+            "projections": [
+                {
+                    "name": "projection",
+                    "type": "mercator"
+                }
+            ],
             "marks": [
                 {
                     "name": "marks",
@@ -129,18 +135,21 @@
                                 "scale": "y",
                                 "field": "day_time"
                             },
-                            "fill": {
-                                "value": "#4c78a8"
-                            },
                             "size": {
                                 "scale": "size",
                                 "field": "sum_count"
+                            },
+                            "fill": {
+                                "value": "#4c78a8"
                             },
                             "shape": {
                                 "value": "circle"
                             }
                         }
-                    }
+                    },
+                    "transform": [
+                        null
+                    ]
                 }
             ],
             "scales": [
