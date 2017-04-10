@@ -199,6 +199,7 @@ export abstract class Model {
       group.signals = signals;
     }
 
+    // TODO: consider if we want scales to come before marks in the output spec.
     group.marks = this.assembleMarks();
 
     const scales = this.assembleScales();
