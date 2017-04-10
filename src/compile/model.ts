@@ -206,11 +206,6 @@ export abstract class Model {
       group.scales = scales;
     }
 
-    const projections = this.assembleProjections();
-    if (projections.length > 0) {
-      group.projections = projections;
-    }
-
     const axes = this.assembleAxes();
     if (axes.length > 0) {
       group.axes = axes;
